@@ -1,25 +1,28 @@
-" don't bother with vi compatibility
-set nocompatible
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Maintainer:
+"       Wilson Sumanang
+"       http://saruberoz.github.io - wilson.sumanang@gmail.com
+"       from square/maximum-awesome + some other resources
+"
+  " Version:
+"       1.0 - 09/01/15
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" enable syntax highlighting
-syntax enable
 
-" configure Vundle
-filetype on " without this vim emits a zero exit status, later, because of :ft off
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" --> Powerline Setup
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" python from powerline.vim import setup as powerline_setup
+" python powerline_setup()
+" python del powerline_setup
 
-" install Vundle bundles
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
-  source ~/.vimrc.bundles.local
-endif
 
-call vundle#end()
-
-" ensure ftdetect et al work by including this after the Vundle stuff
-filetype plugin indent on
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" --> General Setup
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set history=500                                              " Sets how many lines of history VIM has to remember
+filetype plugin indent on                                    " Enable filetype plugin
 
 set autoindent
 set autoread                                                 " reload files when changed on disk, i.e. via `git checkout`
@@ -39,6 +42,7 @@ set ruler                                                    " show where you ar
 set scrolloff=3                                              " show context above/below cursorline
 set shiftwidth=2                                             " normal mode indentation commands use 2 spaces
 set showcmd
+set smarttab
 set smartcase                                                " case-sensitive search if any caps
 set softtabstop=2                                            " insert mode tab and backspace use 2 spaces
 set tabstop=8                                                " actual tabs occupy 8 characters
@@ -46,13 +50,62 @@ set wildignore=log/**,node_modules/**,target/**,tmp/**,*.rbc
 set wildmenu                                                 " show a navigable menu for tab completion
 set wildmode=longest,list,full
 
+set ai                                                       "Auto indent
+set si                                                       "Smart indent
+set wrap                                                     "Wrap lines
+set nocompatible                                             " don't bother with vi compatibility
+syntax enable                                                " enable syntax highlighting
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" --> Filetype Ignore
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" let g:ft_ignore_pat = '\.\(Z\|gz\|bz2\|zip\|tgz\)$'
+let NERDTreeIgnore = ['\.mp4$', '\.gif$', '\.zip$', '\.pyc$']
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" --> Pathogen
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" call pathogen#infect()
+" execute pathogen#infect()
+" syntax on
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" --> Vundle
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" configure Vundle
+filetype on " without this vim emits a zero exit status, later, because of :ft off
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" install Vundle bundles
+if filereadable(expand("~/.vimrc.bundles"))
+  source ~/.vimrc.bundles
+  source ~/.vimrc.bundles.local
+endif
+
+" ensure ftdetect et al work by including this after the Vundle stuff
+filetype plugin indent on
+
 " Enable basic mouse behavior such as resizing buffers.
 set mouse=a
 if exists('$TMUX')  " Support resizing in tmux
   set ttymouse=xterm2
 endif
 
-" keyboard shortcuts
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" --> YouCompleteMe
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" install youcompleteme auto completion for vim
+Bundle 'Valloric/YouCompleteMe'
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers kb shortcuts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ','
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
@@ -68,6 +121,7 @@ nnoremap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 nnoremap <leader>] :TagbarToggle<CR>
 nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
 nnoremap <leader>g :GitGutterToggle<CR>
+nnoremap <leader>c <Plug>Kwbd
 noremap <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " in case you forgot to sudo
@@ -127,3 +181,41 @@ if filereadable(expand("~/.vimrc.local"))
   " noremap! jj <ESC>
   source ~/.vimrc.local
 endif
+
+
+""""""""""""""""""""""""""""""
+" => Visual mode related
+""""""""""""""""""""""""""""""
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :call VisualSelection('f')<CR>
+vnoremap <silent> # :call VisualSelection('b')<CR>
+" Don't copy the contents of an overwritten selection.
+vnoremap p "_dP
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" --> Syntastic
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Syntastic synta checker
+" set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
