@@ -1,0 +1,92 @@
+[alias]
+  # checkout a branch
+  co = "checkout"
+  # checkout a new branch
+  cob = "checkout -b"
+  # adds all changed files
+  cam = !git commit -am
+  # adds all changes including untracked files
+  acam = !git add -A && git commit -m
+
+  # Get my working directory up to date. git pull --rebase --prune && git submodule update --init --recursive
+  up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+  lg = "log --pretty=oneline --abbrev-commit"
+  lgp = log -p
+  credit = shortlog -sn
+  #yolo = "commit -am "YOLO PUSH, DEAL WITH IT" && git push -f origin master"
+  hist = "log --graph --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative"
+  ahead = "log @{u}...HEAD --graph --decorate --left-right --boundary --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative"
+  today = "log --stat --since='1 Day Ago' --graph --pretty=oneline --abbrev-commit --date=relative"
+  # Show verbose output about tags, branches, or remotes
+  tags = "tag -l"
+  branches = "branch -a"
+  remotes = "remote -v"
+  file-count = "status | grep 'modified:' | wc -l"
+  #git push :refs/tags/<name of tag>
+  purge-remote = "remote update origin --prune"
+  uncommit = "reset HEAD~1"
+  # list all git aliases
+  la = "!git config -l | grep alias | cut -c 7-"
+  # purge-merged = "branch --merged | grep -v \* | xargs git branch -D"
+  # archive the repo
+  tar = ! "tar() { git archive --format tar --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; tar"
+  targz = ! "targz() { git archive --format tar.gz --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; targz"
+  zip = ! "zip() { git archive --format zip --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; zip"
+  st = status -sb
+  br = branch -vv
+  bra = branch -vv --all
+  update-submodules = submodule update --init --recursive
+  upgrade-submodules = submodule update --init --remote
+  curr-hash = rev-parse HEAD
+  pull = pull --ff-only
+  delbranc ="git branch | grep -v "master|master" | xargs git branch -D"
+
+
+[color]
+  ui = auto
+  interactive = auto
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = green
+  changed = magenta
+  untracked = bold yellow
+[color "grep"]
+  match = cyan bold
+  selected = blue
+  context = normal
+  filename = magenta
+  linenumber = green
+  separator = yellow
+  function = blue
+
+[core]
+  excludesfile = /Users/wilsonsumanang/.gitignore_global
+
+[credential]
+  helper = cache --timeout=3600
+
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+
+[help]
+  autocorrect = 5
+
+[mergetool "sourcetree"]
+	cmd = /Users/wilsonsumanang/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+
+[push]
+  default = matching
+
+[user]
+  name = Wilson Sumanang
+  email = wilson.sumanang@gmail.com
