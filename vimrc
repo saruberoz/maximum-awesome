@@ -77,7 +77,7 @@ let NERDTreeIgnore = ['\.mp4$', '\.gif$', '\.zip$', '\.pyc$']
 " configure Vundle
 filetype on " without this vim emits a zero exit status, later, because of :ft off
 filetype off
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#rc()
 
 " install Vundle bundles
